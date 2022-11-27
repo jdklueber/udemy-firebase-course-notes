@@ -1,6 +1,12 @@
+import {getAuth} from "firebase/auth";
+
 function Home() {
+    const auth = getAuth();
+    const currentUser = auth.currentUser ? auth.currentUser.email : "Not signed in";
     return (
-        <div>Home</div>
+        <div>Current user:  {currentUser}
+
+        </div>
     );
 }
 

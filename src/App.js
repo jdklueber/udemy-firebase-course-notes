@@ -9,6 +9,9 @@ import Offers from "./pages/Offers";
 import Header from "./components/Header";
 import Content from "./components/ui/Content";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <div>
@@ -25,6 +28,18 @@ function App() {
               </Routes>
           </Content>
       </BrowserRouter>
+        <ToastContainer
+            position="bottom-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+        />
     </div>
   );
 }
