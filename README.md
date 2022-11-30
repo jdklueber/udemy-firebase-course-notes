@@ -111,6 +111,8 @@ If you do this, you'll probably want to add the favicon link inside of `index.ht
 
 ## React Router
 
+### Installation and basic usage
+
 1. Install React Router
 
 ```console
@@ -463,12 +465,15 @@ const signOutHandler = () => signOut(auth) //call this as appropriate
 If you want to use the logged in state / user information across your application, it's probably a good idea to compartmentalize all of the auth logic into a single React Context that can track the current logged in user as state and let your components access that Context so that they update when the auth state changes.  In order to subscribe to that state change, use `auth.onAuthStateChanged()` like this:
 
 ```javascript
-auth.onAuthStateChanged(() => {
-	//update your context state here
-});
+useEffect(() => {
+    auth.onAuthStateChanged(() => {
+        //update your context state here
+    });    
+}, []);
+
 ```
 
-
+You must call `auth.onAuthStateChanged()` inside of a `useEffect` hook (or some other way to make sure it only gets called once), otherwise it'll subscribe every time the component is rendered and throw you into a loop of doom.
 
 ### `react-toastify`
 
@@ -581,6 +586,126 @@ import {Link} from "react-router-dom";
 ```
 
 Presumably `NavLink` works too.
+
+### Private routes
+
+Sometimes you need pages that can only be seen by signed in users.  **Note that this technique only works to redirect users, but anyone with web development skills can still see these pages with a little bit of work.** Only use this for UX reasons, not security reasons.  Secure your data on the server, not by hiding it with private routes!
+
+There is a simple technique for handling private routes using some basic components of the `react-router-dom` package.  Here's the code:
+
+`PrivateRoute.js`
+
+```jsx
+import {Outlet, Navigate} from "react-router-dom";
+
+function PrivateRoute() {
+    const loggedin = false; //This needs to actually know what the sign in state is (or whatever condition you're checking for)
+
+    return loggedin ? <Outlet/>  //If logged in, <Outlet/> is set to 
+                                 //whatever is enclosed by the
+    				             //<PrivateRoute> tag
+    							 //This is roughly equivalent to {children}
+                    : <Navigate to={"/sign-in"}/>
+                                //If not logged in, <Navigate> will redirect
+                                //to the given route.
+}
+
+export default PrivateRoute;
+```
+
+One way you can accomplish the sign in test is with a custom hook, like so:
+
+`useAuthStatus.js`
+
+```jsx
+import {useEffect, useState} from "react";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+
+function useAuthStatus() {
+    //Keep the current log in status / waiting for info status in state
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [waiting, setWaiting] = useState(true);
+
+    //Set up the onAuthStateChanged listener to update the logged in state
+    //whenever Firebase reports that it has changed
+    useEffect(() => {
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setLoggedIn(true)
+            } else {
+                setLoggedIn(false);
+            }
+            //If this fires once, then we're connected to Firebase
+            //and no longer need to report that we are waiting
+            setWaiting(false);
+        })
+    }, []);
+
+    //These are the variables that will be exposed by the hook
+    return {loggedIn, waiting};
+}
+
+export {useAuthStatus};
+```
+
+Meanwhile, back in our `PrivateRoute` component...
+
+`PrivateRoute.js`
+
+```jsx
+import {Outlet, Navigate} from "react-router-dom";
+import {useAuthStatus} from "../hooks/useAuthStatus";
+
+function PrivateRoute() {
+    const {loggedIn, waiting} = useAuthStatus(); //Calling the hook
+
+    if (waiting) {
+        <h3>Loading...</h3> //Do better here, this is ugly
+    } else {
+        //The navigate to might need to be changed for your application
+        return loggedIn ? <Outlet/> : <Navigate to={"/sign-in"}/>
+    }
+}
+
+export default PrivateRoute;
+```
+
+Finally, let's look at how `PrivateRoute` is used to protect a `Route`:
+
+`App.js`
+
+```jsx
+//skipping all the other imports
+import PrivateRoute from "./components/PrivateRoute";
+
+function App() {
+  return (
+    <div>
+      <BrowserRouter>
+          <Header/>
+          <Content>
+              <Routes>
+                  <!-- skipping the routes we don't care about -->
+                  <!-- The PrivateRoute has Profile as a sub route -->
+                  <!-- this is how the Outlet tag gets its target -->
+                  <Route path={"/profile"} element={<PrivateRoute/>}>
+                    <Route path={"/profile"} element={<Profile/>}/>
+                  </Route>
+                  <!-- skipping the routes we don't care about -->
+              </Routes>
+          </Content>
+      </BrowserRouter>
+      <!-- Skipping the toast section -->
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+
 
 ## Resources
 

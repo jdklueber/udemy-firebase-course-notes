@@ -21,6 +21,11 @@ function Header() {
         <li className={`${linkBaseStyles} ${routeStyling("/sign-in")}`}
                                              onClick={() => navigate("/sign-in")}>Sign In</li>
 
+    const profile = auth.currentUser ?
+        <li className={`${linkBaseStyles} ${routeStyling("/profile")}`}
+            onClick={() => navigate("/profile")}>Profile</li>
+        : ""
+
     return (
         <header className={"flex justify-between items-center px-3 border-b z-50 sticky bg-white"}>
             <div>
@@ -34,6 +39,7 @@ function Header() {
                     onClick={() => navigate("/")}>Home</li>
                     <li className={`${linkBaseStyles} ${routeStyling("/offers")}`}
                         onClick={() => navigate("/offers")}>Offers</li>
+                    {profile}
                     {signInOut}
 
                 </ul>

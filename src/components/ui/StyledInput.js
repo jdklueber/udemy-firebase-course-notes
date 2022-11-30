@@ -2,7 +2,7 @@ import {useState} from "react";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/20/solid";
 
 
-function StyledInput({type, className, value, onChange, placeholder}) {
+function StyledInput({type, className, value, onChange, placeholder, disabled=false}) {
     const [showPassword, setShowPassword] = useState(false);
     let calculatedType = type;
     if (type === "password" && showPassword) {
@@ -17,6 +17,7 @@ function StyledInput({type, className, value, onChange, placeholder}) {
                                            ${className}`}
                    value={value} onChange={onChange}
                    placeholder={placeholder}
+                   disabled={disabled}
             />
             {type === "password" ? showPassword ?
                 <EyeSlashIcon className={iconClasses} onClick={()=>setShowPassword(false)}/>
