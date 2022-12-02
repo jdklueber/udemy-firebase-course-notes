@@ -458,6 +458,37 @@ const signOutHandler = () => signOut(auth) //call this as appropriate
 
 ### Forgot Password
 
+Firebase handles the password reset logic as well.  All you need to do is provide a way to obtain the user's email address and pass it along.  Here's an example:
+
+```jsx
+import {getAuth, sendPasswordResetEmail} from "firebase/auth"; //required
+import {toast} from "react-toastify"; //optional - for notifications
+import {useNavigate} from "react-router-dom"; //optional - for sending
+                                              //the user back to the
+                                              //sign in page
+
+//This method is called by the onClick event of a button
+const submit =async () => {
+        try {
+            //Grab an auth handle from firebase
+            const auth = getAuth();
+            
+            //email is tracked in state to be passed along here
+            await sendPasswordResetEmail(auth, email); 
+            
+            //react-toastify notifies the user that 
+            //their request has been processed
+            toast.success("Reset email sent");
+            
+            //react-router-dom sends them back to the sign in page
+            navigate("/sign-in")
+        } catch (error) {
+            //Generic react-toastify error notification
+            toast.error(error.message);
+        }
+    }
+```
+
 
 
 ### General notes on user authentication
@@ -474,6 +505,20 @@ useEffect(() => {
 ```
 
 You must call `auth.onAuthStateChanged()` inside of a `useEffect` hook (or some other way to make sure it only gets called once), otherwise it'll subscribe every time the component is rendered and throw you into a loop of doom.
+
+## Profile
+
+
+
+## Home
+
+## Offers
+
+## Deploy
+
+
+
+## Appendices
 
 ### `react-toastify`
 
@@ -511,17 +556,9 @@ toast.success("Account created!"); //Green check
 toast.error(error.message);        //Red !
 ```
 
-## Profile
+## 
 
-## Home
-
-## Offers
-
-## Deploy
-
-
-
-## `react-router-dom` v6 updates
+### `react-router-dom` v6 updates
 
 Setting up the routes:
 
