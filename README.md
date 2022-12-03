@@ -749,7 +749,7 @@ There are some limitations on how `orderBy` can be used.
 
 For the full discussion, see the documentation: https://firebase.google.com/docs/firestore/query-data/order-limit-data#limitations
 
-## Server Side Document Count
+###  Server Side Document Count
 
 Documentation: https://firebase.google.com/docs/firestore/query-data/aggregation-queries
 
@@ -762,9 +762,21 @@ console.log('count: ', snapshot.data().count);
 
 This will give you a count of documents without actually downloading them.
 
-## Pagination Queries
+### Pagination Queries
 
 Documentation: https://firebase.google.com/docs/firestore/query-data/query-cursors
+
+WIP
+
+### Deleting Data
+
+Documentation: https://firebase.google.com/docs/firestore/manage-data/delete-data
+
+WIP
+
+### Transactions
+
+Documentation: https://firebase.google.com/docs/firestore/manage-data/transactions
 
 WIP
 
