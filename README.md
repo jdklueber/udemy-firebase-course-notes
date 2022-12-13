@@ -225,14 +225,24 @@ npm install firebase
 ```javascript
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import {getFirestore} from "firebase/firestore";
+import {getAuth} from "firebase/auth";
+import {getStorage} from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-// App specific config here - find in firebase console
+//app specific details here, find in firebase console
 };
 
 // Initialize Firebase
- initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
+
+//Get handles for database and auth
+const db = getFirestore();
+const auth = getAuth();
+const storage = getStorage();
+
+export {db, auth, storage}; //import these when you need to use them
 ```
 
 #### Authentication
@@ -359,7 +369,7 @@ import {
     updateProfile
 } from "firebase/auth";
 import {db} from "../firebase";
-import {doc, serverTimestamp, setDoc} from "firebase/firestore";
+import {doc, serverTimestamp, setDoc, getDoc} from "firebase/firestore";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 
@@ -800,10 +810,17 @@ npm install react-toastify
 
 2. Configure: https://fkhadra.github.io/react-toastify/introduction/#the-playground
 
-3. Add to the page(s) that need to display toasts (at the bottom of the `App.js` component is a good call if you're using `react-router` and want toasts potentially everywhere.)
+3. Import the css into `index.js`
 
    ```jsx
-           <ToastContainer //copied and pasted from the configure page
+   import 'react-toastify/dist/ReactToastify.min.css';
+   ```
+
+4. Add to the page(s) that need to display toasts (at the bottom of the `App.js` component is a good call if you're using `react-router` and want toasts potentially everywhere.)
+
+   ```jsx
+   import {ToastContainer} from "react-toastify";
+   	<ToastContainer //copied and pasted from the configure page
                position="bottom-center"
                autoClose={5000}
                hideProgressBar={false}
@@ -817,7 +834,7 @@ npm install react-toastify
            />
    ```
 
-4. Make toasts
+5. Make toasts
 
 ```jsx
 toast.success("Account created!"); //Green check
