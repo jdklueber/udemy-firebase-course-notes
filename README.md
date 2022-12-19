@@ -101,7 +101,7 @@ Your hello world should now be quite large and sans-serif.
 
 ## Making a new favicon.ico file: 
 
-See https://favicon.io/favicon-generator/
+See 
 
 If you do this, you'll probably want to add the favicon link inside of `index.html`.
 
@@ -855,17 +855,14 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-          <Header/>
-          <Content>
-              <Routes>
-                  <Route path={"/"} element={<Home/>}/>
-                  <Route path={"/profile"} element={<Profile/>}/>
-                  <Route path={"/sign-in"} element={<SignIn/>}/>
-                  <Route path={"/sign-up"} element={<SignUp/>}/>
-                  <Route path={"/forgot-password"} element={<ForgotPassword/>}/>
-                  <Route path={"/offers"} element={<Offers/>}/>
-              </Routes>
-          </Content>
+          <Routes>
+              <Route path={"/"} element={<Home/>}/>
+              <Route path={"/profile"} element={<Profile/>}/>
+              <Route path={"/sign-in"} element={<SignIn/>}/>
+              <Route path={"/sign-up"} element={<SignUp/>}/>
+              <Route path={"/forgot-password"} element={<ForgotPassword/>}/>
+              <Route path={"/offers"} element={<Offers/>}/>
+          </Routes>
       </BrowserRouter>
     </div>
   );
