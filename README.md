@@ -501,13 +501,27 @@ const submit =async () => {
 
 ### General notes on user authentication
 
+Documentation:  https://firebase.google.com/docs/auth/web/start#set_an_authentication_state_observer_and_get_user_data
+
+User object docs: https://firebase.google.com/docs/reference/js/firebase.User
+
 If you want to use the logged in state / user information across your application, it's probably a good idea to compartmentalize all of the auth logic into a single React Context that can track the current logged in user as state and let your components access that Context so that they update when the auth state changes.  In order to subscribe to that state change, use `auth.onAuthStateChanged()` like this:
 
 ```javascript
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 useEffect(() => {
-    auth.onAuthStateChanged(() => {
-        //update your context state here
-    });    
+	const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        const uid = user.uid;
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    }); 
 }, []);
 
 ```
