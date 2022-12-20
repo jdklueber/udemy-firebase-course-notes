@@ -6,7 +6,7 @@
 
 [Setup](documentation/firebase/01-setup.md)
 
-[Auth](documentation/firebase/02-auth.md)
+[Auth](documentation/firebase/02-Auth.md)
 
 [Firestore](documentation/firebase/03-Firestore.md)
 
