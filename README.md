@@ -16,21 +16,21 @@
 
 ### React
 
- [React](documentation\React.md) 
+ [React](documentation/React.md) 
 
- [ReactRouter](documentation\ReactRouter.md) 
+ [ReactRouter](documentation/ReactRouter.md) 
 
 ### Tailwind
 
- [Tailwind](documentation\Tailwind.md) 
+ [Tailwind](documentation/Tailwind.md) 
 
 ### Extras
 
- [Favicon](documentation\Favicon.md) - Quickly build simple icons for your website
+ [Favicon](documentation/Favicon.md) - Quickly build simple icons for your website
 
- [Mockaroo](documentation\Mockaroo.md) - Generate test data for your application
+ [Mockaroo](documentation/Mockaroo.md) - Generate test data for your application
 
- [Toastify](documentation\Toastify.md)  - Lovely notifications brought to bear simply
+ [Toastify](documentation/Toastify.md)  - Lovely notifications brought to bear simply
 
- [Unsplash](documentation\Unsplash.md) - Free images
+ [Unsplash](documentation/Unsplash.md) - Free images
 
